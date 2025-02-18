@@ -34,7 +34,19 @@ BaseMaster - Калькулятор систем счисления
 
 **Пример использования:**
 ```
-
+int main() {
+    try {
+        cout << "2 ^ 3 = " << performOperation(2, 3, '^') << endl; // 8
+        cout << "10 % 3 = " << performOperation(10, 3, '%') << endl; // 1
+        cout << "sqrt(16) = " << performOperation(16, 0, 's') << endl; // 4
+        cout << "log(100) = " << performOperation(100, 0, 'L') << endl; // 2
+        cout << "abs(-5) = " << performOperation(-5, 0, 'a') << endl; // 5
+        cout << "round(3.6) = " << performOperation(3.6, 0, 'r') << endl; // 4
+    } catch (const runtime_error& e) {
+        cout << e.what() << endl;
+    }
+    return 0;
+}
 ```
 
 
