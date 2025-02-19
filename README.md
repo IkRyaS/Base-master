@@ -93,9 +93,7 @@ double translate_to_dec(const char* number, int from_) {
         number++;
     }
 
-    if (from_ < 2 || from_ > 36) {
-        throw runtime_error("Некорректная система счисления. Должна быть от 2 до 36.");
-    }
+    if (from_ < 2 || from_ > 36) throw runtime_error("Некорректная система счисления. Должна быть от 2 до 36.");
 
     int i = 0; // Индекс символа
     bool isFraction = false; // Флаг для дробной части
@@ -113,14 +111,10 @@ double translate_to_dec(const char* number, int from_) {
         if (number[i] >= '0' && number[i] <= '9') digitValue = number[i] - '0';
         else if (number[i] >= 'A' && number[i] <= 'Z') digitValue = number[i] - 'A' + 10;
         else if (number[i] >= 'a' && number[i] <= 'z') digitValue = number[i] - 'a' + 10;
-        else {
-            throw runtime_error("Некорректный символ: " + string(1, number[i]));
-        }
+        else throw runtime_error("Некорректный символ: " + string(1, number[i]));
 
         // Проверка на допустимость цифры в данной системе счисления
-        if (digitValue >= from_) {
-            throw runtime_error("Некорректная цифра для системы " + to_string(from_) + ": " + string(1, number[i]));
-        }
+        if (digitValue >= from_) throw runtime_error("Некорректная цифра для системы " + to_string(from_) + ": " + string(1, number[i]));
 
         // Обработка дробной части
         if (isFraction) decimal += digitValue / pow(from_, fractionalBase++); // Используем степень основания
@@ -216,18 +210,12 @@ int main() {
 
         try {
             double result;
-            if (isUnaryOperation) {
-                result = performOperation(translate_to_dec(num1.c_str(), s_num1), 0, operation);
-            }
-            else {
-                result = performOperation(translate_to_dec(num1.c_str(), s_num1), translate_to_dec(num2.c_str(), s_num2), operation);
-            }
+            if (isUnaryOperation) result = performOperation(translate_to_dec(num1.c_str(), s_num1), 0, operation);
+            else result = performOperation(translate_to_dec(num1.c_str(), s_num1), translate_to_dec(num2.c_str(), s_num2), operation);
             string resultStr = translate_to(result, s_result);
             cout << "\n" << num1 << "(" << s_num1 << ") " << operation << " " << (isUnaryOperation ? "" : num2 + "(" + to_string(s_num2) + ")") << " = " << resultStr << "(" << s_result << ")\n\n";
         }
-        catch (const runtime_error& e) {
-            cout << e.what() << endl;
-        }
+        catch (const runtime_error& e) cout << e.what() << endl;
     }
 
     cout << "Программа завершена.\n";
